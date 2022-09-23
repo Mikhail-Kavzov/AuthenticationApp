@@ -1,0 +1,40 @@
+﻿@model IEnumerable<User>
+
+<div class="btn-group-justified toolbar">
+    <input type="button" class="btn btn-danger" value="Block" />
+    <button class="btn btn-success">Unblock</button>
+    <button class="btn btn-warning">Delete</button>
+
+</div>
+<table class="table table-hover table-bordered">
+    <thead class="thead">
+        <tr>
+            <th><input id="checkbox_all" type="checkbox" /></th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>E-mail</th>
+            <th>Last login time</th>
+            <th>Registration time</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                foreach (var user in Model)
+                {
+                        <tr class="info-table">
+                            <td><input type="checkbox" id="@user.Id" /></td>
+                            <td>@user.Id</td>
+                            <td>@user.UserName</td>
+                            <td>@user.UserEmail</td>
+                            <td>@user.LastLogin</td>
+                            <td>@user.RegistryData</td>
+                            <td>@user.Status</td>
+                        </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
