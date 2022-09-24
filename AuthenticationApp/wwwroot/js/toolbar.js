@@ -12,10 +12,13 @@ function queryPutToolbar(status, Url) {
     $.ajax({
         url: Url,
         method: 'put',
-        dataType: 'html',
+        dataType: 'json',
         data: { id: idCheckBoxes },
         success: function (data) {
-            $('.selected').each(function (index) { $(this).children('td').last().text(status) });
+            if (data === '')
+                $('.selected').each(function (index) { $(this).children('td').last().text(status) });
+            else
+                window.location.href = data.redirectToUrl;
         }
     });
 }
@@ -25,10 +28,13 @@ function queryDeleteToolbar(Url) {
     $.ajax({
         url: Url,
         method: 'delete',
-        dataType: 'html',
+        dataType: 'json',
         data: { id: idCheckBoxes },
         success: function (data) {
-            $(".selected").remove();
+            if (data === '')
+                $(".selected").remove();
+            else
+                window.location.href = data.redirectToUrl;
         }
     });
 }

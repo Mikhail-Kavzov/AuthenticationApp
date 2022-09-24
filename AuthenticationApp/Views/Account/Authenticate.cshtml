@@ -3,13 +3,16 @@
 <div class="form-container col-md-6">
     <p class="text-center info-account">Login</p>
     <form role="form" method="POST" asp-action="Authenticate">
+        @Html.ValidationSummary(true)
         <div class="form-group form-elements">
             <label class="control-label labels-account" asp-for="Email">Email: </label>
             <input type="email" asp-for="Email" class="form-control" placeholder="Email..." />
+            @Html.ValidationMessageFor(m => m.Email)
         </div>
         <div class="form-group form-elements">
             <label class="control-label labels-account" asp-for="Password">Password: </label>
             <input type="password" asp-for="Password" class="form-control" placeholder="Password..." />
+            @Html.ValidationMessageFor(m => m.Password)
         </div>
         <div class="btn-group-justified form-elements">
             <input class="btn btn-success btn-app" type="button" value="Register" onclick="location.href='@Url.Action("Register", "Account")'" />

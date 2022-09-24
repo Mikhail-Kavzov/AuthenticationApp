@@ -3,21 +3,26 @@
 <div class="form-container col-md-6">
     <p class="text-center info-account">Register</p>
     <form method="POST" asp-action="Register">
+        @Html.ValidationSummary(true)
         <div class="form-group form-elements">
             <label class="control-label labels-account" asp-for="Name">Name: </label>
             <input type="text" class="form-control" asp-for="Name" />
+            @Html.ValidationMessageFor(m => m.Name)
         </div>
         <div class="form-group form-elements">
             <label class="control-label labels-account" asp-for="Email">Email: </label>
             <input type="email" class="form-control" asp-for="Email" />
+            @Html.ValidationMessageFor(m => m.Email)
         </div>
         <div class="form-group form-elements">
             <label class="control-label labels-account" asp-for="Password">Password: </label>
             <input type="password" class="form-control" asp-for="Password" />
+            @Html.ValidationMessageFor(m => m.Password)
         </div>
         <div class="form-group form-elements">
             <label class="control-label labels-account" asp-for="PasswordConfirm">Repeat Password: </label>
             <input type="password" class="form-control" asp-for="PasswordConfirm" />
+            @Html.ValidationMessageFor(m => m.PasswordConfirm)
         </div>
         <div class="btn-group-justified form-elements">
             <input type="button" class="btn btn-success btn-app" value="Log In" onclick="location.href='@Url.Action("Authenticate", "Account")'" />

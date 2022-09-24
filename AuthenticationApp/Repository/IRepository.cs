@@ -1,7 +1,7 @@
 ﻿namespace AuthenticationApp.Repository
 {
     public interface IRepository<T>
-    {        
+    {
         void Create(T item);
         void Update(T item);
         void Delete(T item);

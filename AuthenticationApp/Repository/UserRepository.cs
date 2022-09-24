@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 namespace AuthenticationApp.Repository
 {
     public class UserRepository : IUserRepository
-    {   
+    {
         private readonly ApplicationContext db;
 
         public UserRepository(ApplicationContext _appContext)
         {
-            db= _appContext;    
+            db = _appContext;
         }
 
         public void Create(User item)
@@ -28,7 +28,7 @@ namespace AuthenticationApp.Repository
             return await db.Users.ToListAsync();
         }
 
-        public async  Task<User?> GetElementAsync(string id)
+        public async Task<User?> GetElementAsync(string id)
         {
             return await db.Users.FirstOrDefaultAsync(u => u.Id == id);
         }

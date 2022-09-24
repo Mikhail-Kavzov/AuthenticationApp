@@ -45,7 +45,7 @@ namespace AuthenticationApp.Controllers
         public async Task<IActionResult> DeleteUsers(string[] id)
         {
             if (await CheckCurrentStatusUser())
-                return RedirectToAction("Logout", "Account");
+                return Json(new { redirectToUrl = Url.Action("Logout", "Account") });
             var users = await _userRepository.GetUsersAsync(id);
             foreach (var user in users)
             {
@@ -53,32 +53,32 @@ namespace AuthenticationApp.Controllers
             }
             await _userRepository.SaveChangesAsync();
             if (await CheckCurrentStatusUser())
-                return RedirectToAction("Logout", "Account");
-            return new OkResult();
+                return Json(new { redirectToUrl = Url.Action("Logout", "Account") });
+            return Json("");
         }
 
         [HttpPut]
         public async Task<IActionResult> UnBlockUsers(string[] id)
         {
             if (await CheckCurrentStatusUser())
-                return RedirectToAction("Logout", "Account");
+                return Json(new { redirectToUrl = Url.Action("Logout", "Account") });
             var users = await _userRepository.GetUsersAsync(id);
             ChangeUserStatus(users, UserStatus.Active);
             await _userRepository.SaveChangesAsync();
-            return new OkResult();
+            return Json("");
         }
 
         [HttpPut]
         public async Task<IActionResult> BlockUsers(string[] id)
         {
             if (await CheckCurrentStatusUser())
-                return RedirectToAction("Logout", "Account");
+                return Json(new { redirectToUrl = Url.Action("Logout", "Account") });
             var users = await _userRepository.GetUsersAsync(id);
             ChangeUserStatus(users, UserStatus.Blocked);
             await _userRepository.SaveChangesAsync();
             if (await CheckCurrentStatusUser())
-                return RedirectToAction("Logout", "Account");
-            return new OkResult();
+                return Json(new { redirectToUrl = Url.Action("Logout", "Account") });
+            return Json("");
         }
     }
 }

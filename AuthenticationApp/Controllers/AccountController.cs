@@ -34,18 +34,25 @@ namespace AuthenticationApp.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(autForm.Email);
-                if (user != null)
+                if (user == null)
                 {
-                    var result = await _signInManager.PasswordSignInAsync(user.UserName, autForm.Password, false, false);
-                    if (result.Succeeded)
-                    {
-                        if (user.Status == UserStatus.Blocked)
-                            return View(autForm);
-                        user.LastLogin = DateTime.Now;
-                        await _userManager.UpdateAsync(user);
-                        return RedirectToAction("Index", "Home");
-                    }
+                    ModelState.AddModelError("Email", "User with current Email not found");
+                    return View(autForm);
                 }
+                if (user.Status == UserStatus.Blocked)
+                {
+                    ModelState.AddModelError(string.Empty, "User has been blocked");
+                    return View(autForm);
+                }
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, autForm.Password, false, false);
+                if (result.Succeeded)
+                {
+                    user.LastLogin = DateTime.Now;
+                    await _userManager.UpdateAsync(user);
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("Password", "Incorrect Password");
+
             }
             return View(autForm);
         }
@@ -88,7 +95,7 @@ namespace AuthenticationApp.Controllers
         }
 
         public async Task<IActionResult> Logout()
-        {         
+        {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Authenticate");
         }
