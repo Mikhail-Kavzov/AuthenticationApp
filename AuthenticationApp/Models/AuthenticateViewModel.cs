@@ -8,6 +8,7 @@ namespace AuthenticationApp.Models
         public string Email { get; set; } = null!;
 
         [Required(ErrorMessage = "Enter Password")]
+        [DataType(DataType.Password)]
         public string Password { get; set; } = null!;
     }
 }

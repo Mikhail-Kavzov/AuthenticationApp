@@ -1,10 +1,9 @@
 ﻿@model IEnumerable<User>
 
 <div class="btn-group-justified toolbar">
-    <input type="button" class="btn btn-danger" value="Block" />
-    <button class="btn btn-success">Unblock</button>
-    <button class="btn btn-warning">Delete</button>
-
+    <input type="button" id="BlockBtn" class="btn btn-danger" value="Block" />
+    <button class="btn btn-success" id="UnblockBtn">Unblock</button>
+    <button class="btn btn-warning" id="DeleteBtn">Delete</button>
 </div>
 <table class="table table-hover table-bordered">
     <thead class="thead">
@@ -24,17 +23,18 @@
             {
                 foreach (var user in Model)
                 {
-                        <tr class="info-table">
-                            <td><input type="checkbox" id="@user.Id" /></td>
-                            <td>@user.Id</td>
-                            <td>@user.UserName</td>
-                            <td>@user.UserEmail</td>
-                            <td>@user.LastLogin</td>
-                            <td>@user.RegistryData</td>
-                            <td>@user.Status</td>
-                        </tr>
+                    <tr class="info-table" id="@user.Id">
+                        <td><input type="checkbox"/></td>
+                        <td>@user.Id</td>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                        <td>@user.LastLogin</td>
+                        <td>@user.RegistryData</td>
+                        <td>@user.Status</td>
+                    </tr>
                 }
             }
         }
     </tbody>
+   
 </table>

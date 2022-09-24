@@ -1,5 +1,4 @@
-﻿using AuthenticationApp.Hash;
-using AuthenticationApp.Models;
+﻿using AuthenticationApp.Models;
 using AuthenticationApp.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,55 +7,62 @@ namespace AuthenticationApp.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserRepository userRepository;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AccountController(IUserRepository _userRepository)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
-            userRepository = _userRepository;
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+        [HttpGet]
+        public IActionResult Login(string? returnUrl = null)
+        {
+            return RedirectToAction("Authenticate");
         }
 
         [HttpGet]
         public IActionResult Register() => View();
 
-        [HttpGet]
         public IActionResult Authenticate() => View();
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Authenticate(AuthenticateViewModel autForm)
         {
             if (ModelState.IsValid)
             {
-                User? user = await userRepository.GetUserByEmail(autForm.Email);
-                if (user == null)
-                    return View(); //user not exist
-                if (user.Status == UserStatus.Blocked) //user is blocked
-                    return View();
-                string autPasswordHash = HashPassword.GenerateHash(autForm.Password);
-                if (autPasswordHash != user.Password) //password are not equal
-                    return View();
-                user.LastLogin=DateTime.Now;
-                userRepository.Update(user);
-                await userRepository.SaveChangesAsync();
-                return RedirectToAction("Index", "Home");
+                var user = await _userManager.FindByEmailAsync(autForm.Email);
+                if (user != null)
+                {
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName, autForm.Password, false, false);
+                    if (result.Succeeded)
+                    {
+                        if (user.Status == UserStatus.Blocked)
+                            return View(autForm);
+                        user.LastLogin = DateTime.Now;
+                        await _userManager.UpdateAsync(user);
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
             }
-            return View();
+            return View(autForm);
         }
 
         [NonAction]
-        private void CreateNewUser(RegisterViewModel regForm)
+        private User CreateNewUser(RegisterViewModel regForm)
         {
-            string passwordHash = HashPassword.GenerateHash(regForm.Password);
             DateTime timeNow = DateTime.Now;
             User newUser = new()
             {
-                UserEmail = regForm.Email,
+                Email = regForm.Email,
                 UserName = regForm.Name,
-                Password = passwordHash,
                 LastLogin = timeNow,
                 RegistryData = timeNow,
                 Status = UserStatus.Active
             };
-            userRepository.Create(newUser);
+            return newUser;
         }
 
         [HttpPost]
@@ -64,14 +70,27 @@ namespace AuthenticationApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                User? userExist = await userRepository.GetUserByEmail(regForm.Email);
-                if (userExist != null) //if user exists
-                    return View();
-                CreateNewUser(regForm);
-                await userRepository.SaveChangesAsync();
-                return RedirectToAction("Index", "Home");
+                User user = CreateNewUser(regForm);
+                var result = await _userManager.CreateAsync(user, regForm.Password);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
             }
-            return View();
+            return View(regForm);
+        }
+
+        public async Task<IActionResult> Logout()
+        {         
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Authenticate");
         }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using AuthenticationApp.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationApp.Context
 {
-    public class ApplicationContext: DbContext
+    public class ApplicationContext: IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; } = null!;
-
         public ApplicationContext(DbContextOptions<ApplicationContext> options):base(options)
         {
             Database.EnsureCreated();  

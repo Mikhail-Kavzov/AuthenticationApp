@@ -1,5 +1,7 @@
 using AuthenticationApp.Context;
+using AuthenticationApp.Models;
 using AuthenticationApp.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 internal class Program
@@ -11,6 +13,14 @@ internal class Program
         string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
         builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
+        builder.Services.AddIdentity<User, IdentityRole>(opts => {
+            opts.Password.RequiredLength = 1;   // минимальная длина
+            opts.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
+            opts.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
+            opts.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
+            opts.Password.RequireDigit = false; // требуются ли цифры
+            opts.User.RequireUniqueEmail = true;
+        }).AddEntityFrameworkStores<ApplicationContext>();
 
         builder.Services.AddScoped<IUserRepository, UserRepository>();//
 
@@ -29,12 +39,12 @@ internal class Program
         app.UseStaticFiles();
 
         app.UseRouting();
-
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Account}/{action=Authenticate}/{id?}");
+            pattern: "{controller=Home}/{action=Index}/{id?}");
 
         app.Run();
     }

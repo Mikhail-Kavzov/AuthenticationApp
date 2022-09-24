@@ -28,14 +28,19 @@ namespace AuthenticationApp.Repository
             return await db.Users.ToListAsync();
         }
 
-        public async  Task<User?> GetElementAsync(int id)
+        public async  Task<User?> GetElementAsync(string id)
         {
             return await db.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<User?> GetUserByEmail(string email)
         {
-            return await db.Users.FirstOrDefaultAsync(u => u.UserEmail == email);
+            return await db.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<IEnumerable<User>> GetUsersAsync(string[] keys)
+        {
+            return await db.Users.Where(u => keys.Contains(u.Id)).ToListAsync();
         }
 
         public async Task SaveChangesAsync()

@@ -1,11 +1,9 @@
-﻿namespace AuthenticationApp.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace AuthenticationApp.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
-        public string? UserName { get; set; }
-        public string? UserEmail { get; set; }
-        public string? Password { get; set; }
         public DateTime RegistryData { get; set; }
         public DateTime LastLogin { get; set; }
         public UserStatus Status { get; set; }
