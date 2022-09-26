@@ -6,6 +6,7 @@ function SelectedCheckbox() {
 $('#BlockBtn').click(() => queryPutToolbar('Blocked', '/Home/BlockUsers/'));
 $('#UnblockBtn').click(() => queryPutToolbar('Active', '/Home/UnBlockUsers/'));
 $('#DeleteBtn').click(() => queryDeleteToolbar('/Home/DeleteUsers/'));
+$('#QuitBtn').click(() => window.location.href = '/Account/Logout');
 
 function queryPutToolbar(status, Url) {
     let idCheckBoxes = SelectedCheckbox();

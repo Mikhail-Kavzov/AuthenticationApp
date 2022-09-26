@@ -1,5 +1,7 @@
 ﻿@model AuthenticateViewModel
-
+@{
+    ViewBag.AutCss = "css/aut.css";
+}
 <div class="form-container col-md-6">
     <p class="text-center info-account">Login</p>
     <form role="form" method="POST" asp-action="Authenticate">
@@ -16,7 +18,7 @@
         </div>
         <div class="btn-group-justified form-elements">
             <input class="btn btn-success btn-app" type="button" value="Register" onclick="location.href='@Url.Action("Register", "Account")'" />
-            <input type="submit" class="btn btn-primary btn-app" value="Log In" />
+            <input type="submit" class="btn btn-primary btn-app" id="submit-btn" value="Log In" />
         </div>
     </form>
 </div>

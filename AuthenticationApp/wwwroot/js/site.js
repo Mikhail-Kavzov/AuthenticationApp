@@ -28,7 +28,6 @@
 			}
 		});
  
-		// Клик по строке таблицы
 		$(target).on('click', 'tbody tr', function(event) {
 			if (event.target.tagName == 'TH' || event.target.tagName == 'TD'){
 				$(this).find(':checkbox').trigger('click');

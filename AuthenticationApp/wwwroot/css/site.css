@@ -1,59 +1,66 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
-  background-color:rgb(220,255,255);
+    margin-bottom: 60px;
+    background-color: rgb(220,255,255);
 }
 
-input{
-    outline:none;
+input {
+    outline: none;
 }
 
-.info-account{
-    font-size:30px;
-    font-weight:700;
+.info-account {
+    font-size: 30px;
+    font-weight: 700;
 }
 
-.form-elements{
-    margin-top:20px;
+.form-elements {
+    margin-top: 20px;
 }
 
-.labels-account{
-    font-size:20px;
+.labels-account {
+    font-size: 20px;
 }
-.form-container{
+
+.form-container {
     margin: 0 auto;
-    background-color:white;
-    padding:30px;
+    background-color: white;
+    padding: 30px;
     border-radius: 30px;
 }
 
-.btn-app{
-    border-radius:10px;
+.btn-app {
+    border-radius: 10px;
 }
 
-.info-table{
-    background-color:wheat;
+.info-table {
+    background-color: wheat;
 }
-.thead{
-    background-color:lightgreen;
+
+.thead {
+    background-color: lightgreen;
 }
-.toolbar{
-    display:flex;
-    justify-content:space-around;
+
+.toolbar {
+    display: flex;
+    justify-content: space-around;
     padding: 10px 0;
-    background-color:white;
+    background-color: white;
+}
+
+.field-validation-error {
+    color: red;
 }
