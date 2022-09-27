@@ -13,16 +13,17 @@ internal class Program
         string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
         builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
-        builder.Services.AddIdentity<User, IdentityRole>(opts => {
-            opts.Password.RequiredLength = 1;   // минимальная длина
-            opts.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
-            opts.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
-            opts.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
-            opts.Password.RequireDigit = false; // требуются ли цифры
+        builder.Services.AddIdentity<User, IdentityRole>(opts =>
+        {
+            opts.Password.RequiredLength = 1;
+            opts.Password.RequireNonAlphanumeric = false;
+            opts.Password.RequireLowercase = false;
+            opts.Password.RequireUppercase = false;
+            opts.Password.RequireDigit = false;
             opts.User.RequireUniqueEmail = true;
         }).AddEntityFrameworkStores<ApplicationContext>();
 
-        builder.Services.AddScoped<IUserRepository, UserRepository>();//
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
 
         builder.Services.AddControllersWithViews();
 

@@ -12,6 +12,7 @@ namespace AuthenticationApp.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly UserManager<User> _userManager;
+
         public HomeController(IUserRepository userRepository, UserManager<User> userManager)
         {
             _userRepository = userRepository;

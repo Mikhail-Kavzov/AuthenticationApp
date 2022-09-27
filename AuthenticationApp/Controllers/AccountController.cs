@@ -58,7 +58,7 @@ namespace AuthenticationApp.Controllers
         }
 
         [NonAction]
-        private User CreateNewUser(RegisterViewModel regForm)
+        private static User CreateNewUser(RegisterViewModel regForm)
         {
             DateTime timeNow = DateTime.Now;
             User newUser = new()
