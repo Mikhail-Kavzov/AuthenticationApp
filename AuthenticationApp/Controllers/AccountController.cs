@@ -80,10 +80,7 @@ namespace AuthenticationApp.Controllers
                 User user = CreateNewUser(regForm);
                 var result = await _userManager.CreateAsync(user, regForm.Password);
                 if (result.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
-                }
+                    return RedirectToAction("Authenticate");
 
                 foreach (var error in result.Errors)
                 {
